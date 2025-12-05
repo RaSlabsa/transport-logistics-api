@@ -1,0 +1,22 @@
+﻿namespace transport_logistics_api.Data.Entities
+{
+    public enum VehicleType{
+        CurtainSider,
+        Refrigerator,
+        Platform,
+        Van,
+        TankTruck,
+    }
+    public class Vehicle
+    {
+        public int VehicleId { get; set; }
+        public string RegNumber { get; set; } = string.Empty;
+        public VehicleType VehicleType { get; set; }
+        public string BrandModel { get; set; } = string.Empty;
+        public int PayLoadCapacity { get; set; }
+        public int VolumeCapacity { get; set; }
+        public int ProductionYear { get; set; }
+
+        public ICollection<Trip> Trips { get; set; } = new List<Trip>();
+    }
+}
