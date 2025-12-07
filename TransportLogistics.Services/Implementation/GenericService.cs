@@ -33,7 +33,7 @@ namespace TransportLogistics.Services.Implementation
             var entities = await _repository.GetAllAsync();
             return _mapper.Map<IEnumerable<TViewDto>>(entities);
         }
-        public async Task<TViewDto> AddAsync(TCreateDto dto)
+        public virtual async Task<TViewDto> AddAsync(TCreateDto dto)
         {
             var entity = _mapper.Map<TEntity>(dto);
 
