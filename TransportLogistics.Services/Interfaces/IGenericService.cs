@@ -5,7 +5,7 @@
         where TViewDto : class
         where TCreateDto : class
     {
-        Task<TViewDto?> GetByIdAsync();
+        Task<TViewDto?> GetByIdAsync(int id);
         Task<IEnumerable<TViewDto>>GetAllAsync();
         Task<TViewDto> AddAsync(TCreateDto dto);
         Task<bool> Update(int id, TCreateDto dto);

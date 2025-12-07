@@ -28,14 +28,16 @@ namespace TransportLogistics.Repositories.Implementation
         {
             await _dbSet.AddAsync(entity);
         }
-        public void Update (T entity)
+        public Task Update (T entity)
         {
             _dbSet.Attach(entity);
             _dbSet.Entry(entity).State = EntityState.Modified;
+            return Task.CompletedTask;
         }
-        public void Delete (T entity)
+        public Task Delete (T entity)
         {
             _dbSet.Remove(entity);
+            return Task.CompletedTask;
         }
         public async Task<int> SaveChangesAsync()
         {
