@@ -1,4 +1,4 @@
-﻿namespace transport_logistics_api.Data.Entities
+﻿namespace TransportLogistics.Core.Entities
 {
     public class Driver
     {

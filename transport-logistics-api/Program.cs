@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using TransportLogistics.Repositories.Data;
 
 namespace transport_logistics_api
 {
@@ -7,9 +9,13 @@ namespace transport_logistics_api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
             // Add services to the container.
+
+            builder.Services.AddDbContext<TransportLogicDB>(option =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                option.UseSqlServer(connectionString);
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

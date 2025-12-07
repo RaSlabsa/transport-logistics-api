@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace transport_logistics_api.Data.Entities
+namespace TransportLogistics.Core.Entities
 {
     public enum EventType
     {
@@ -11,8 +11,9 @@ namespace transport_logistics_api.Data.Entities
     }
     public class TripLog
     {
+        [Key]
         public int LogId { get; set; }
-        public int Tripid { get; set; }
+        public int TripId { get; set; }
         public DateTime EventTime { get; set; }
         public EventType EventType { get; set; }
         public string GPSLocation { get; set; } = string.Empty;

@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace transport_logistics_api.Data.Entities
+﻿namespace TransportLogistics.Core.Entities
 {
     public enum TripStatus
     {

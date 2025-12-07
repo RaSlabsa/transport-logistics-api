@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using transport_logistics_api.Data.Entities;
-using System;
-using System.Numerics;
+using TransportLogistics.Core.Entities;
 
-namespace transport_logistics_api.Data
+namespace TransportLogistics.Repositories.Data
 {
     public class TransportLogicDB : DbContext
     {
@@ -21,7 +19,7 @@ namespace transport_logistics_api.Data
                 .HasConversion<string>();
 
             modelBuilder.Entity<Vehicle>()
-                .Property(u => u. VehicleType)
+                .Property(u => u.VehicleType)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Trip>()
@@ -37,6 +35,7 @@ namespace transport_logistics_api.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Order> Orders { get; set; }
-
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<TripLog> TripLogs { get; set; }
     }
 }

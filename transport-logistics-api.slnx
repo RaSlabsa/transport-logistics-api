@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="transport-logistics-api/transport-logistics-api.csproj" />
+  <Project Path="TransportLogistics.Core/TransportLogistics.Core.csproj" Id="2dd177d7-0fed-4166-b884-f2c9df1965ba" />
+  <Project Path="TransportLogistics.Repositories/TransportLogistics.Repositories.csproj" Id="710834f2-124d-4f42-999d-3491f1bcf16d" />
+  <Project Path="TransportLogistics.Services/TransportLogistics.Services.csproj" Id="0668189d-afc7-4e29-ab28-38307015e1a6" />
 </Solution>

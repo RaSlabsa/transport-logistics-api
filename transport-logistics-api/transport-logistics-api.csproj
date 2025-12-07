@@ -20,4 +20,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TransportLogistics.Core\TransportLogistics.Core.csproj" />
+    <ProjectReference Include="..\TransportLogistics.Services\TransportLogistics.Services.csproj" />
+  </ItemGroup>
+
 </Project>
