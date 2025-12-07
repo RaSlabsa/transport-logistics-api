@@ -1,16 +1,9 @@
-﻿namespace TransportLogistics.Core.Entities
+﻿using TransportLogistics.Core.Entities;
+
+namespace TransportLogistics.Core.DTOs.Get
 {
-    public enum OrderStatus
+    public class OrderDto : BaseDto
     {
-        New,
-        Processing,
-        Delivering,
-        Completed,
-        Canceled
-    }
-    public class Order
-    {
-        public int OrderId { get; set; }
         public int ClientId { get; set; }
         public DateTime CreationDate { get; set; }
         public string LoadAddress { get; set; } = string.Empty;
@@ -19,6 +12,5 @@
         public DateOnly RequiredArrivalTime { get; set; }
         public string CargoDescription { get; set; } = string.Empty;
         public OrderStatus OrderStatus { get; set; }
-        public ICollection<Trip> Trips { get; set; } = new List<Trip>();
     }
 }
