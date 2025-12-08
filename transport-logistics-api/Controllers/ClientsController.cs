@@ -37,9 +37,9 @@ namespace transport_logistics_api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClientCreateDto dto)
         {
-            var createdOrderDto = await _clientService.AddAsync(dto);
+            var createdClientDto = await _clientService.AddAsync(dto);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdOrderDto.Id }, createdOrderDto);
+            return CreatedAtAction(nameof(GetById), new { id = createdClientDto.Id }, createdClientDto);
         }
 
         [HttpPut("{id}")]
