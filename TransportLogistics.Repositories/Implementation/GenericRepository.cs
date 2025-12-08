@@ -34,10 +34,17 @@ namespace TransportLogistics.Repositories.Implementation
             _dbSet.Entry(entity).State = EntityState.Modified;
             return Task.CompletedTask;
         }
-        public Task Delete (T entity)
+        public async Task<bool> Delete (int id)
         {
-            _dbSet.Remove(entity);
-            return Task.CompletedTask;
+            var entityToDelete = await _dbSet.FindAsync(id);
+
+            if (entityToDelete == null)
+            {
+                return false;
+            }
+            _dbSet.Remove(entityToDelete);
+
+            return true;
         }
         public async Task<int> SaveChangesAsync()
         {

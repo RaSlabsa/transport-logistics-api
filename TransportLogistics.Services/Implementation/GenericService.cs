@@ -62,14 +62,12 @@ namespace TransportLogistics.Services.Implementation
         }
         public async Task<bool> Delete(int id)
         {
-            var entityToDelete = await _repository.GetByIdAsync(id);
+            var success = await _repository.Delete(id);
 
-            if (entityToDelete == null)
+            if (!success)
             {
                 return false;
             }
-
-            await _repository.Delete(entityToDelete);
 
             var rowsAffected = await _repository.SaveChangesAsync();
 

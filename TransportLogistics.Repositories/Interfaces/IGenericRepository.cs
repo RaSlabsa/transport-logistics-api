@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TransportLogistics.Repositories.Interfaces
+﻿namespace TransportLogistics.Repositories.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
@@ -12,7 +6,7 @@ namespace TransportLogistics.Repositories.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         Task Update(T entity);
-        Task Delete(T entity);
+        Task<bool> Delete(int id);
         Task<int> SaveChangesAsync();
     }
 }

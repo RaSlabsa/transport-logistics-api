@@ -1,5 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TransportLogistics.Repositories.Data;
+using TransportLogistics.Repositories.Implementation;
+using TransportLogistics.Repositories.Interfaces;
+using TransportLogistics.Services.Implementation;
+using TransportLogistics.Services.Interfaces;
+using TransportLogistics.Services.Mappings;
 
 namespace transport_logistics_api
 {
@@ -21,6 +26,18 @@ namespace transport_logistics_api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            var coreAssembly = typeof(TransportLogistics.Core.Entities.Order).Assembly;
+            var serviceAssembly = typeof(MappingProfile).Assembly;
+
+            builder.Services.AddAutoMapper(typeof(Program).Assembly, coreAssembly, serviceAssembly);
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+
+            builder.Services.AddScoped<IDriverRepository, DriverRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IClientService, ClientService>();
 
             var app = builder.Build();
 
