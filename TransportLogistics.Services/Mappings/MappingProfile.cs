@@ -9,22 +9,46 @@ namespace TransportLogistics.Services.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<Client, ClientDto>();
+            CreateMap<Client, ClientDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.ClientId)
+                );
             CreateMap<ClientCreateDto, Client>();
 
-            CreateMap<Driver, DriverDto>();
+            CreateMap<Driver, DriverDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.DriverId)
+                );
             CreateMap<DriverCreateDto, Driver>();
 
-            CreateMap<Order, OrderDto>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.OrderId)
+                );
             CreateMap<OrderCreateDto, Order>();
 
-            CreateMap<Trip, TripDto>();
+            CreateMap<Trip, TripDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.TripId)
+                );
             CreateMap<TripCreateDto, Trip>();
 
-            CreateMap<TripLog, TripLogDto>();
+            CreateMap<TripLog, TripLogDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.LogId)
+                );
             CreateMap<TripLogCreateDto, TripLog>();
 
-            CreateMap<Vehicle, VehicleDto>();
+            CreateMap<Vehicle, VehicleDto>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.VehicleId)
+                );
             CreateMap<VehicleCreateDto, Vehicle>();
         }
     }
