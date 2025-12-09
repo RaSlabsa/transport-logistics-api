@@ -60,7 +60,7 @@ namespace TransportLogistics.Services.Implementation
 
             return rowsAffected > 0;
         }
-        public async Task<bool> Delete(int id)
+        public virtual async Task<bool> Delete(int id)
         {
             var success = await _repository.Delete(id);
 

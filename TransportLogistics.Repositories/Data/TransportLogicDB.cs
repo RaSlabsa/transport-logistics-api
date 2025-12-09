@@ -29,6 +29,12 @@ namespace TransportLogistics.Repositories.Data
             modelBuilder.Entity<TripLog>()
                 .Property(u => u.EventType)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Driver)
+                .WithMany(d => d.Orders)
+                .HasForeignKey(o => o.DriverId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Driver> Drivers { get; set; }

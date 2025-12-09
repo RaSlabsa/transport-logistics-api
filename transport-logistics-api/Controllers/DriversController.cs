@@ -8,10 +8,12 @@ namespace transport_logistics_api.Controllers
     public class DriversController : ControllerBase
     {
         private readonly IDriverService _driverService;
+        private readonly IOrderService _orderService;
 
-        public DriversController(IDriverService driverService)
+        public DriversController(IDriverService driverService, IOrderService orderService)
         {
             _driverService = driverService;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -66,6 +68,19 @@ namespace transport_logistics_api.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("{driverId}/history")]
+        public async Task<IActionResult> GetDriverTrips(int driverId)
+        {
+            var history = await _orderService.GetDriverTripHistoryAsync(driverId);
+
+            if (history == null || !history.Any())
+            {
+                return NotFound($"No trip history found for driver with id: {driverId}");
+            }
+
+            return Ok(history);
         }
     }
 }

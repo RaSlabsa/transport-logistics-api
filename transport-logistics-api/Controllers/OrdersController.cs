@@ -68,5 +68,25 @@ namespace transport_logistics_api.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("{id}/complete")]
+        public async Task<IActionResult> CompleteOrder(int id)
+        {
+            try
+            {
+                var succsess = await _orderService.CompleteOrderAsync(id);
+
+                if (!succsess)
+                {
+                    return NotFound($"Order with id: {id} not found");
+                }
+
+                return NoContent();
+            }
+            catch(InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

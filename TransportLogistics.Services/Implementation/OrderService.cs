@@ -9,8 +9,10 @@ namespace TransportLogistics.Services.Implementation
 {
     public class OrderService : GenericService<Order, OrderDto, OrderCreateDto>, IOrderService
     {
-        public OrderService(IGenericRepository<Order> repository, IMapper mapper) : base(repository, mapper)
+        private readonly IOrderRepository _orderRepository;
+        public OrderService(IGenericRepository<Order> repository, IMapper mapper, IOrderRepository orderRepository) : base(repository, mapper)
         {
+            _orderRepository = orderRepository;
         }
         public override async Task<OrderDto> AddAsync(OrderCreateDto dto)
         {
@@ -25,6 +27,33 @@ namespace TransportLogistics.Services.Implementation
             await _repository.SaveChangesAsync();
 
             return _mapper.Map<OrderDto>(entity);
+        }
+        public async Task<IEnumerable<OrderDto>> GetDriverTripHistoryAsync(int driverId)
+        {
+            var orders = await _orderRepository.GetDriverTripHistoryAsync(driverId);
+
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
+        }
+        public async Task<bool> CompleteOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order == null)
+            {
+                return false;
+            }
+
+            if (order.OrderStatus == OrderStatus.Canceled)
+            {
+                throw new InvalidOperationException("Cannot complete canceled order");
+            }
+
+            order.OrderStatus = OrderStatus.Completed;
+
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
+
+            return true;
         }
     }
 }

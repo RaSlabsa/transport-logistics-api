@@ -43,6 +43,7 @@ namespace transport_logistics_api
 
             builder.Services.AddScoped<IDriverRepository, DriverRepository>();
             builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
             var app = builder.Build();
 

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using transport_logistics_api.Data;
+using TransportLogistics.Repositories.Data;
 
 #nullable disable
 
-namespace transport_logistics_api.Migrations
+namespace TransportLogistics.Repositories.Migrations
 {
     [DbContext(typeof(TransportLogicDB))]
     partial class TransportLogicDBModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace transport_logistics_api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Client", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Client", b =>
                 {
                     b.Property<int>("ClientId")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace transport_logistics_api.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Driver", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Driver", b =>
                 {
                     b.Property<int>("DriverId")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace transport_logistics_api.Migrations
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Order", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -111,6 +111,9 @@ namespace transport_logistics_api.Migrations
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DriverId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoadAddress")
                         .IsRequired()
@@ -134,10 +137,12 @@ namespace transport_logistics_api.Migrations
 
                     b.HasIndex("ClientId");
 
+                    b.HasIndex("DriverId");
+
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Trip", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Trip", b =>
                 {
                     b.Property<int>("TripId")
                         .ValueGeneratedOnAdd()
@@ -181,7 +186,7 @@ namespace transport_logistics_api.Migrations
                     b.ToTable("Trips");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.TripLog", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.TripLog", b =>
                 {
                     b.Property<int>("LogId")
                         .ValueGeneratedOnAdd()
@@ -217,7 +222,7 @@ namespace transport_logistics_api.Migrations
                     b.ToTable("TripLogs");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Vehicle", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Vehicle", b =>
                 {
                     b.Property<int>("VehicleId")
                         .ValueGeneratedOnAdd()
@@ -251,68 +256,82 @@ namespace transport_logistics_api.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Order", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Order", b =>
                 {
-                    b.HasOne("transport_logistics_api.Data.Entities.Client", "Client")
+                    b.HasOne("TransportLogistics.Core.Entities.Client", null)
                         .WithMany("Orders")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("TransportLogistics.Core.Entities.Driver", "Driver")
+                        .WithMany("Orders")
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Trip", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Trip", b =>
                 {
-                    b.HasOne("transport_logistics_api.Data.Entities.Driver", null)
+                    b.HasOne("TransportLogistics.Core.Entities.Driver", "Driver")
                         .WithMany("Trips")
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("transport_logistics_api.Data.Entities.Order", null)
+                    b.HasOne("TransportLogistics.Core.Entities.Order", "Order")
                         .WithMany("Trips")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("transport_logistics_api.Data.Entities.Vehicle", null)
+                    b.HasOne("TransportLogistics.Core.Entities.Vehicle", "Vehicle")
                         .WithMany("Trips")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.TripLog", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.TripLog", b =>
                 {
-                    b.HasOne("transport_logistics_api.Data.Entities.Trip", null)
+                    b.HasOne("TransportLogistics.Core.Entities.Trip", null)
                         .WithMany("TripLogs")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Client", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Client", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Driver", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Driver", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Trips");
+                });
+
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Order", b =>
                 {
                     b.Navigation("Trips");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Order", b =>
-                {
-                    b.Navigation("Trips");
-                });
-
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Trip", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Trip", b =>
                 {
                     b.Navigation("TripLogs");
                 });
 
-            modelBuilder.Entity("transport_logistics_api.Data.Entities.Vehicle", b =>
+            modelBuilder.Entity("TransportLogistics.Core.Entities.Vehicle", b =>
                 {
                     b.Navigation("Trips");
                 });
