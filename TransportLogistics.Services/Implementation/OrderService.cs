@@ -55,6 +55,16 @@ namespace TransportLogistics.Services.Implementation
 
             return true;
         }
+        public async Task<IEnumerable<OrderDto>> GetOrdersByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            if (startDate > endDate)
+            {
+                throw new ArgumentException("Start date cannot be after end date.");
+            }
+
+            var orders = await _orderRepository.GetOrdersByPeriodAsync(startDate, endDate);
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
+        }
     }
 }
 

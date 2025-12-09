@@ -16,5 +16,11 @@ namespace TransportLogistics.Repositories.Implementation
                 .Where(o => o.DriverId == driverId && o.OrderStatus == OrderStatus.Completed)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Order>> GetOrdersByPeriodAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Orders
+                .Where(o => o.CreationDate >= startDate && o.CreationDate <= endDate)
+                .ToListAsync();
+        }
     }
 }

@@ -88,5 +88,21 @@ namespace transport_logistics_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("period")]
+        public async Task<IActionResult> GetOrdersByPeriod(
+        [FromQuery] DateTime startDate,
+        [FromQuery] DateTime endDate)
+        {
+            try
+            {
+                var orders = await _orderService.GetOrdersByPeriodAsync(startDate, endDate);
+                return Ok(orders);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace TransportLogistics.Services.Interfaces
     {
         public Task<IEnumerable<OrderDto>> GetDriverTripHistoryAsync(int driverId);
         public Task<bool> CompleteOrderAsync(int orderId);
+        public Task<IEnumerable<OrderDto>> GetOrdersByPeriodAsync(DateTime startDate, DateTime endDate);
     }
 }
