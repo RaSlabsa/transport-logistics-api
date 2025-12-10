@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    image: transport-logistics-api
+    build:
+      context: .
+      dockerfile: transport-logistics-api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # 👇 ОНОВЛЕНИЙ рядок підключення для SQL Server
+      # Зверни увагу: Server=db; User Id=sa; TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=Server=db;Database=LogisticsDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true
+    depends_on:
+      - db
+
+  db:
+    # 👇 Змінюємо образ на офіційний SQL Server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      # 👇 Обов'язкові змінні для SQL Server
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:

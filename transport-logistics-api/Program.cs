@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using TransportLogistics.Repositories.Data;
 using TransportLogistics.Repositories.Implementation;
 using TransportLogistics.Repositories.Interfaces;
@@ -46,6 +47,24 @@ namespace transport_logistics_api
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<TransportLogicDB>();
+
+                    // Ця команда застосовує всі відсутні міграції (створює БД і таблиці)
+                    context.Database.Migrate();
+
+                    Console.WriteLine("Database migrated successfully within Docker");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
