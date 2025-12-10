@@ -49,10 +49,11 @@ The solution follows **Clean Architecture** rules to decouple business logic fro
 TransportLogistics
 ├── 📂 TransportLogistics.Core           # Domain Layer (Entities, Enums)
 │   ├── No dependencies (Pure C#)
+│   ├── Contains: Entities, DTOs
 │
 ├── 📂 TransportLogistics.Services       # Application Layer (Business Logic)
 │   ├── Depends on: Core
-│   ├── Contains: DTOs, Interfaces, Service Implementations
+│   ├── Contains: Service Implementations
 │
 ├── 📂 TransportLogistics.Repositories   # Infrastructure Layer (Data Access)
 │   ├── Depends on: Core
