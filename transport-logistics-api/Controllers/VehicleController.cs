@@ -67,5 +67,18 @@ namespace transport_logistics_api.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("available")]
+        public async Task<IActionResult> GetAvailableVehicles()
+        {
+            var available = await _vehicleService.GetAvailableVehiclesAsync();
+
+            if (!available.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(available);
+        }
     }
 }

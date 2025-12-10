@@ -6,6 +6,7 @@ namespace TransportLogistics.Core.DTOs.Get
     {
         public int ClientId { get; set; }
         public int DriverId { get; set; }
+        public int VehicleId { get; set; }
         public DateTime CreationDate { get; set; }
         public string LoadAddress { get; set; } = string.Empty;
         public string UnloadAddress { get; set; } = string.Empty;

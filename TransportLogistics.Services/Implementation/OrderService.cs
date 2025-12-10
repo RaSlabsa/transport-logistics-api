@@ -10,9 +10,11 @@ namespace TransportLogistics.Services.Implementation
     public class OrderService : GenericService<Order, OrderDto, OrderCreateDto>, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IGenericRepository<Order> repository, IMapper mapper, IOrderRepository orderRepository) : base(repository, mapper)
+        private readonly IVehicleRepository _vehicleRepository;
+        public OrderService(IGenericRepository<Order> repository, IMapper mapper, IOrderRepository orderRepository, IVehicleRepository vehicleRepository) : base(repository, mapper)
         {
             _orderRepository = orderRepository;
+            _vehicleRepository = vehicleRepository;
         }
         public override async Task<OrderDto> AddAsync(OrderCreateDto dto)
         {
@@ -64,6 +66,39 @@ namespace TransportLogistics.Services.Implementation
 
             var orders = await _orderRepository.GetOrdersByPeriodAsync(startDate, endDate);
             return _mapper.Map<IEnumerable<OrderDto>>(orders);
+        }
+        public async Task<bool> AssignVehicleAsync(int orderId, int vehicleId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            var vehicle = await _vehicleRepository.GetByIdAsync(vehicleId);
+
+            if (order == null || vehicle == null)
+            {
+                return false;
+            }
+
+            if (vehicle.VehicleStatus != VehicleStatus.Available)
+            {
+                throw new InvalidOperationException($"Vehicle {vehicleId} is busy right now (Status: {vehicle.VehicleStatus})!");
+            }
+
+            if (order.OrderStatus == OrderStatus.Completed || order.OrderStatus == OrderStatus.Canceled)
+            {
+                throw new InvalidOperationException("Cannot assign vehicle to canceled order");
+            }
+
+            order.VehicleId = vehicleId;
+
+            order.OrderStatus = OrderStatus.Processing;
+
+            vehicle.VehicleStatus = VehicleStatus.Busy;
+
+            await _orderRepository.Update(order);
+            await _vehicleRepository.Update(vehicle);
+
+            await _repository.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -104,5 +104,29 @@ namespace transport_logistics_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPatch("{orderId}/assign-vehicle/{vehicleId}")]
+        public async Task<IActionResult> AssignVehicle(int orderId, int vehicleId)
+        {
+            try
+            {
+                var success = await _orderService.AssignVehicleAsync(orderId, vehicleId);
+
+                if (!success)
+                {
+                    return NotFound("Order or vehicle is not found");
+                }
+
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server problem: {ex.Message}");
+            }
+        }
     }
 }

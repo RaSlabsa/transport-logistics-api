@@ -20,5 +20,11 @@ namespace TransportLogistics.Repositories.Implementation
                     trip.TripStatus != TripStatus.Canceled &&
                     (departure < trip.Order.RequiredArrivalTime && arrival > trip.Order.RequiredDepartureTime));
         }
+        public async Task<IEnumerable<Vehicle>> GetAvailableVehiclesAsync()
+        {
+            return await _context.Vehicles
+                .Where(v => v.VehicleStatus == VehicleStatus.Available)
+                .ToListAsync();
+        }
     }
 }

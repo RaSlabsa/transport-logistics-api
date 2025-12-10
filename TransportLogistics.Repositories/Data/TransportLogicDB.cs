@@ -22,6 +22,10 @@ namespace TransportLogistics.Repositories.Data
                 .Property(u => u.VehicleType)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<Vehicle>()
+                .Property(u => u.VehicleStatus)
+                .HasConversion<string>();
+
             modelBuilder.Entity<Trip>()
                 .Property(u => u.TripStatus)
                 .HasConversion<string>();

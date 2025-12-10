@@ -6,5 +6,6 @@ namespace TransportLogistics.Services.Interfaces
 {
     public interface IVehicleService : IGenericService<Vehicle, VehicleDto, VehicleCreateDto>
     {
+        public Task<IEnumerable<VehicleDto>> GetAvailableVehiclesAsync();
     }
 }

@@ -5,5 +5,6 @@ namespace TransportLogistics.Repositories.Interfaces
     public interface IVehicleRepository : IGenericRepository<Vehicle>
     {
         public Task<bool> IsVehicleBooked(int vehicleId, DateOnly departure, DateOnly arrival);
+        public Task<IEnumerable<Vehicle>> GetAvailableVehiclesAsync();
     }
 }
